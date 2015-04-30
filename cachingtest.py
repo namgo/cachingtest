@@ -11,6 +11,6 @@ class Handler(BaseHTTPRequestHandler):
 class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
     pass
 
-server = ThreadingHTTPServer(("",port), Handler)
+server = ThreadingHTTPServer(("",8000), Handler)
 server.serve_forever()
 
