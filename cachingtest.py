@@ -1,17 +1,8 @@
-from SocketServer import ThreadingMixIn
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
-import datetime
-class Handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/plain")
-        self.send_header("Cache-Control", "max-age=2000")
-        self.end_headers()
-        self.wfile.write(datetime.datetime.now())
+import uwsgi
 
-class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
-    pass
+def app(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/plain'),('Cache-Contro', 'max-age=2000')])
 
-server = ThreadingHTTPServer(("",8000), Handler)
-server.serve_forever()
-
+uwsgi.applications = {
+    '': app
+}
